@@ -1,0 +1,107 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        div.b {
+            padding-top: 50px;
+            padding-left: 50px;
+        }
+    </style>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li class="menu-text">{{ body }}</li>
+                <!-- {% if request.user.is_authenticated %} -->
+                <li><a href="/logout/">LogOut</a></li>
+                <!-- {% else %} -->
+                <li><a href="/login/">LogIn</a></li>
+                <!-- {% endif %} -->
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <!-- {% if request.user.is_authenticated %} -->
+                <li class="menu-text">Hi {{ request.user.username }}</li>
+                <!-- {% else %} -->
+                <li class="menu-text">Welcome Guest</li>
+                <!-- {% endif %} -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid-x">
+        <div class="b cell medium-6 large-2">
+            <a href="createGroup/" class="card">
+                <div>
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <p>Create Group</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="b cell medium-6 large-2">
+            <a href="joinGroup/" class="card">
+                <div>
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <p>Join Group</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="grid-x">
+        <div class="b cell medium-6 large-2">
+            <a href="/groupListPage" class="card">
+                <div>
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <p>Your Groups</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="b cell medium-6 large-2">
+            <a href="/requestPage" class="card">
+                <div>
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <p>Your Group Requests</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="b cell medium-6 large-2">
+            <a href="/" class="card">
+                <div>
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <p>Your schedule</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/vendor.js' %}"></script>
+    <script src="{% static 'js/app.min.js' %}"></script>
+    <script src="{% static 'css/foundation.css' %}"></script>
+</body>
+
+</html>

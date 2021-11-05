@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        div.b {
+            line-height: 60px;
+        }
+    </style>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li class="menu-text">GymBuddy</li>
+                {% if request.user.is_authenticated %}
+                <li><a href="/logout/">LogOut</a></li>
+                {% else %}
+                <li><a href="/login/">LogIn</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                {% if request.user.is_authenticated %}
+                <li class="menu-text">Hi {{ request.user.username }}</li>
+                {% else %}
+                <li class="menu-text">Welcome Guest</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="b grid-container">
+        <div class="large-4 medium-4 small-12 cell">
+            <h3>{{ body }}</h3>
+        </div>
+
+        <div class="grid-x grid-padding-x">
+            <div class="large-4 medium-6 small-12 cell">
+                {% for r in request_from_other_users_list %}
+                {% if r.is_approved == False %}
+                <div class="card">
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        <b> {{ r.requested_User.username }} </b> requested to join your <b> {{ r.group.groupName }} </b> group
+                    </div>
+                    <div>
+                        <a href="/acceptGroupRequest/{{r.id}}/" class="success button">Accept</a> 
+                        <a href="/declineGroupRequest/{{r.id}}/" class="alert button">Decline</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="grid-x grid-padding-x">
+            <div class="large-4 medium-6 small-12 cell">
+                {% for r in request_to_join_other_groups %}
+                <div class="card">
+                    <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                    <div class="card-section">
+                        {% if r.is_approved == False %}
+                        You requested to join <b> {{ r.group.groupName }} </b> group
+                        {% else %}
+                        Your request is approved to join <b>{{ r.group.groupName }}</b> !!
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/vendor.js' %}"></script>
+    <script src="{% static 'js/app.min.js' %}"></script>
+    <!-- vuejs for index page -->
+</body>
+
+</html>
