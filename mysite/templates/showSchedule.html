@@ -37,26 +37,16 @@
 
     <div class="b grid-container">
         <div class="large-4 medium-4 small-12 cell">
-            <h3>{{ body }}</h3>
-        </div>
-        <div id="list-rendering">
+            <h3>{{ body }}</h3>  
             <div class="grid-x grid-padding-x">
-                <div class="large-4 medium-6 small-12 cell" v-for="o in groupList">
-                    <a v-bind:href="'/showActivity/'+o.group_id+'/'" class="card">
-                        <div>
-                            <div class="card-divider">
-                                {% verbatim %}
-                                <b>{{ o.groupName}} {{o.group_id}}</b>
-                                {% endverbatim %}
-                              </div>
-                            <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                            <div class="card-section">
-                                 Added by  {% if request.user.username == o.groupAdmin %} You {% else %}  {% verbatim %} {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
-                                {% endverbatim %}
-                            </div>
+                <div class="large-4 medium-6 small-12 cell">
+                    {% for r in activityList %}
+                    <div class="card">
+                        <div class="card-section">
+                            <b> {{ r.activity_name }} </b> <b> {{ r.number_of_sets }} </b> 
                         </div>
-                    </a>
-
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -65,12 +55,6 @@
 
     <script src="{% static 'js/vendor.js' %}"></script>
     <script src="{% static 'js/app.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
-
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="{% static 'js/myvue.js' %}"></script>
     <!-- vuejs for index page -->
 </body>
 

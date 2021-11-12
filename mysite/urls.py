@@ -16,4 +16,7 @@ urlpatterns = [
     path('request/<int:group_ID>/<int:groupAdmin_ID>/', views.request_view),
     path('acceptGroupRequest/<int:req_ID>/', views.acceptRequest_view),
     path('declineGroupRequest/<int:req_ID>/', views.declineRequest_view),
+    path('showActivity/<int:group_ID>/', views.showActivity_view),
+    path('addActivity/<int:group_ID>/', views.addActivity_view),
+    path('showSchedule/', views.schedule_view),
 ]

@@ -33,6 +33,33 @@ class GroupForm(forms.Form):
     #     required=False
     # )
 
+ACTIVITY_CHOICES=[ ('Push_Ups', 'Push Ups'),
+    ('Sit_Ups', 'Sit Ups'),
+    ('Jumping_jacks', 'Jumping jacks'),
+    ('star_jacks', 'Star jacks'),
+    ('skipping', 'Skipping'),
+    ('crunches', 'Crunches'),
+    ('Mountain_Climbers', 'Mountain Climbers'),
+    ('Weight_Lifting', 'Weight Lifting'),]
+
+SETS_CHOICES = [('15 x 1', '15 x 1 sets'), ('15 x 2', '15 x 2 sets'), ('15 x 3', '15 x 3 sets'),
+                ('20 x 1', '20 x 1 sets'), ('20 x 2', '20 x 2 sets'), ('20 x 3', '20 x 3 sets')]    
+
+class ActivityForm(forms.Form):
+    activityName = forms.CharField(label="Activity Name", widget=forms.Select(choices=ACTIVITY_CHOICES))
+    number_of_sets = forms.CharField(label="Number of sets", widget=forms.Select(choices=SETS_CHOICES))
+
+    def saveActivity(self,request, group_ID):
+        groupModel_instance = models.groupModel.objects.get(id=group_ID)
+        activity_instance = models.activityModel()
+        activity_instance.group = groupModel_instance
+        activity_instance.activity_name = self.cleaned_data["activityName"]
+        activity_instance.number_of_sets = self.cleaned_data["number_of_sets"]
+        activity_instance.addedBy = request.user
+        activity_instance.save()
+        return activity_instance
+
+
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         label="Email",

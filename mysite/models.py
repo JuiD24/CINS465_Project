@@ -22,7 +22,7 @@ class groupModel(models.Model):
     # )
 
     def __str__(self):
-        return str(self.groupName) + " " + str(self.groupAdmin.username) + " " + str(self.added_on)
+        return str(self.groupName) + " " + str(self.groupAdmin.username)
 
 class requestModel(models.Model):
     group= models.ForeignKey(groupModel, on_delete=models.CASCADE)
@@ -33,3 +33,13 @@ class requestModel(models.Model):
 
     def __str__(self):
         return str(self.group) + " " + str(self.group_Admin.username) + " " + str(self.requested_User.username) + " " + str(self.is_approved)
+
+class activityModel(models.Model):
+    group = models.ForeignKey(groupModel, on_delete=models.CASCADE)     
+    activity_name = models.CharField(max_length=300)
+    number_of_sets = models.CharField(max_length=300)
+    addedBy = models.ForeignKey(auth_user, on_delete=models.CASCADE)   
+    activity_added_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.group) + " " + str(self.addedBy.username) + " " + str(self.activity_name) + " " + str(self.activity_added_on)

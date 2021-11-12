@@ -86,6 +86,7 @@ def groupList_view(request):
     for groupObj in groupobjects:
         temp_group = {}
         temp_group["groupName"] = groupObj.groupName
+        temp_group["group_id"] = groupObj.id
         temp_group["groupAdmin"] = groupObj.groupAdmin.username
         time_diff = datetime.now(timezone.utc) - groupObj.added_on
         time_diff_s = time_diff.total_seconds()
@@ -148,7 +149,58 @@ def declineRequest_view(request, req_ID):
     request_obj = models.requestModel.objects.get(id = req_ID)
     request_obj.delete()
     return redirect("/requestPage/")
-    
+
+def showActivity_view(request, group_ID):
+    groupModel_instance = models.groupModel.objects.get(id=group_ID)
+    gymbuddy_list = groupModel_instance.groupUsers.all()
+    present = datetime.now()
+    print("presennt ",present.date())
+    activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
+    activity_list=[]
+    for activity in activity_objects:
+        print("acti date ",activity.activity_added_on.date())
+        # if(activity.activity_added_on.date() == present.date()):
+        activity_list.append(activity)
+    print(activity_list)
+
+    context = {
+        "body":"Today's Activities",
+        "group_id": group_ID,
+        "activity_list" : activity_list,
+        "gymbuddy_list" : gymbuddy_list,
+    }
+    return render(request,"showActivity.html", context=context) 
+
+def addActivity_view(request, group_ID):
+    if request.method == "POST":
+        form = forms.ActivityForm(request.POST)
+        if form.is_valid() and request.user.is_authenticated:
+            form.saveActivity(request, group_ID)
+            return redirect("/showActivity/"+str(group_ID)+"/")
+    else:
+        form = forms.ActivityForm()
+    context = {
+        "body":"Add Activities",
+        "form" : form,
+        "group_id" : group_ID
+    }
+    return render(request,"addActivity.html", context=context) 
+
+def schedule_view(request):
+    userGroups = models.groupModel.objects.filter(groupUsers = request.user)
+    activityList = []
+    present = datetime.now()
+    for groupModel_instance in userGroups:
+        activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
+        for activity in activity_objects:
+            # if(activity.activity_added_on.date() == present.date()):
+            activityList.append(activity)
+    context = {
+        "body":"Your Schedule",
+        "activityList" : activityList
+    }
+    return render(request,"showSchedule.html", context=context) 
+
 def register_view(request):
     if request.method == "POST":
         form = forms.RegistrationForm(request.POST)

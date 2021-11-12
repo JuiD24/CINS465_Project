@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        div.b {
+            line-height: 60px;
+        }
+    </style>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li class="menu-text">GymBuddy</li>
+                {% if request.user.is_authenticated %}
+                <li><a href="/logout/">LogOut</a></li>
+                {% else %}
+                <li><a href="/login/">LogIn</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                {% if request.user.is_authenticated %}
+                <li class="menu-text">Hi {{ request.user.username }}</li>
+                {% else %}
+                <li class="menu-text">Welcome Guest</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="b grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-8 medium-6 small-12 cell">
+                <h3>{{ body }}</h3>
+                {% for activity in activity_list %}
+                <div class="card">
+                    <div class="card-section">
+                        <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b> {{activity.addedBy.username }} </b>
+                    </div>
+                </div>
+                {% endfor %}
+                <a href="/addActivity/{{group_id}}/" class="success button">Add Activity</a>
+
+            </div>
+            <div class="large-3 medium-6 small-12 cell">
+                <h3>Your Buddies</h3>
+                {% for gymbuddy in gymbuddy_list %}
+                <div class="card">
+                    <div class="card-section">
+                        <b> {{gymbuddy.username}}</b>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>   
+    </div>
+
+
+    <script src="{% static 'js/vendor.js' %}"></script>
+    <script src="{% static 'js/app.min.js' %}"></script>
+   
+</body>
+
+</html>
