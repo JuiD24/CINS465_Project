@@ -37,12 +37,15 @@
 
     <div class="b grid-container">
         <div class="grid-x grid-padding-x">
-            <div class="large-8 medium-6 small-12 cell">
+            <div class="large-9 medium-6 small-12 cell">
                 <h3>{{ body }}</h3>
                 {% for activity in activity_list %}
                 <div class="card">
                     <div class="card-section">
                         <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b> {{activity.addedBy.username }} </b>
+                        <div>
+                            <a href="/deleteActivity/{{activity.id}}/" class="alert button">Delete Activity</a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

@@ -18,5 +18,7 @@ urlpatterns = [
     path('declineGroupRequest/<int:req_ID>/', views.declineRequest_view),
     path('showActivity/<int:group_ID>/', views.showActivity_view),
     path('addActivity/<int:group_ID>/', views.addActivity_view),
+    path('deleteActivity/<int:activity_ID>/', views.deleteActivity_view),
     path('showSchedule/', views.schedule_view),
+    path('chat/<str:room_name>/', views.chat_view),
 ]

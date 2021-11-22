@@ -186,6 +186,12 @@ def addActivity_view(request, group_ID):
     }
     return render(request,"addActivity.html", context=context) 
 
+def deleteActivity_view(request, activity_ID):
+    activity = models.activityModel.objects.get(id = activity_ID)
+    groupId = activity.group.id
+    activity.delete()
+    return redirect("/showActivity/"+str(groupId)+"/")
+
 def schedule_view(request):
     userGroups = models.groupModel.objects.filter(groupUsers = request.user)
     activityList = []
@@ -200,6 +206,12 @@ def schedule_view(request):
         "activityList" : activityList
     }
     return render(request,"showSchedule.html", context=context) 
+
+def chat_view(request, room_name):
+    context ={
+        "room_name" : room_name
+    }
+    return render(request,"chatroom.html", context=context)
 
 def register_view(request):
     if request.method == "POST":
