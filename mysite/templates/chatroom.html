@@ -17,50 +17,65 @@
         <div class="top-bar-left">
             <ul class="menu">
                 <li class="menu-text">Chat room</li>
-                <!-- {% if request.user.is_authenticated %} -->
+                {% if request.user.is_authenticated %}
                 <li><a href="/logout/">LogOut</a></li>
-                <!-- {% else %} -->
+                {% else %}
                 <li><a href="/login/">LogIn</a></li>
-                <!-- {% endif %} -->
+                {% endif %}
             </ul>
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <!-- {% if request.user.is_authenticated %} -->
+                {% if request.user.is_authenticated %}
                 <li class="menu-text">Hi {{ request.user.username }}</li>
-                <!-- {% else %} -->
+                {% else %}
                 <li class="menu-text">Welcome Guest</li>
-                <!-- {% endif %} -->
+                {% endif %}
             </ul>
         </div>
     </div>
 
-    <div id="user-hello"></div>
     {{ room_name|json_script:"room-name" }}
+    {{ request.user.username|json_script:"user_username" }}
+
+    <div class="grid-x grid-padding-x">
+        <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+            <div class="b"><h3 class="text-center">Group Chat</h3></div>
+                <div>
+                    <label for="chat-text">Chatroom</label>
+                    <textarea id="chat-text" rows="10"></textarea><br>
+                </div>
+                <div>
+                    <input id="input" type="text"></br>
+                </div>
+                <input type="submit" id="submit" class="button expanded" value="Send" />           
+        </div>
+    </div>
+
     <script>
+        const user_username = JSON.parse(document.getElementById('user_username').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        const chatSocket = new WebSocket(
-            'ws://' +
-            window.location.host +
-            '/ws/chat/' +
-            roomName +
-            '/'
-        );
+
+        document.querySelector('#submit').onclick = function (e) {
+            const messageInputDom = document.querySelector('#input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': user_username,
+            }));
+            messageInputDom.value = '';
+        };
+
+        
+
+        const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/' + roomName + '/' );
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             console.log(data)
-            document.querySelector('#user-hello').innerHTML = (data.tester)
+            document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
         }
     </script>
-
-
-    <div class="b grid-container">
-        <div class="b large-4 medium-6 small-12 cell">
-            
-            
-        </div>
-    </div>
 
     <script src="{% static 'js/vendor.js' %}"></script>
     <script src="{% static 'js/app.min.js' %}"></script>
