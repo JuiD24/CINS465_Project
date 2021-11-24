@@ -27,7 +27,7 @@ def createGroup(request):
     if not request.user.is_authenticated:
         return redirect ("/login/")
     if request.method == "POST":
-        form = forms.GroupForm(request.POST)
+        form = forms.GroupForm(request.POST, request.FILES)
         if form.is_valid() and request.user.is_authenticated:
             form.saveGroup(request)
             return redirect("/")
@@ -59,6 +59,10 @@ def joinGroupList(request):
             temp_group["groupID"] = groupObj.id
             temp_group["groupAdmin"] = groupObj.groupAdmin.username
             temp_group["groupAdminID"] = groupObj.groupAdmin.id 
+            if groupObj.groupImage:
+                temp_group["image"] = groupObj.groupImage.url
+            else:
+                temp_group["image"] = ""
             time_diff = datetime.now(timezone.utc) - groupObj.added_on
             time_diff_s = time_diff.total_seconds()
             if time_diff_s < 60:
@@ -88,6 +92,10 @@ def groupList_view(request):
         temp_group["groupName"] = groupObj.groupName
         temp_group["group_id"] = groupObj.id
         temp_group["groupAdmin"] = groupObj.groupAdmin.username
+        if groupObj.groupImage:
+            temp_group["image"] = groupObj.groupImage.url
+        else:
+            temp_group["image"] = ""
         time_diff = datetime.now(timezone.utc) - groupObj.added_on
         time_diff_s = time_diff.total_seconds()
         if time_diff_s < 60:
@@ -208,6 +216,8 @@ def schedule_view(request):
     return render(request,"showSchedule.html", context=context) 
 
 def chat_view(request, room_name):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     context ={
         "room_name" : room_name
     }

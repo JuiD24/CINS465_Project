@@ -43,7 +43,7 @@
             <div class="grid-x grid-padding-x">
                 <div class="large-4 medium-6 small-12 cell" v-for="o in joinGroupList">
                     <div class="card">
-                        <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                        <img v-bind:src="o.image"/>
                         <div class="card-section">
                             {% verbatim %}
                             <b>{{ o.groupName}} </b> Added by {{o.groupAdmin}} - {{o.date}}

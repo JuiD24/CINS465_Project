@@ -46,10 +46,10 @@
                         <div>
                             <div class="card-divider">
                                 {% verbatim %}
-                                <b>{{ o.groupName}} {{o.group_id}}</b>
+                                <b>{{ o.groupName}}</b>
                                 {% endverbatim %}
                               </div>
-                            <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
+                            <img v-bind:src="o.image"/>
                             <div class="card-section">
                                  Added by  {% if request.user.username == o.groupAdmin %} You {% else %}  {% verbatim %} {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
                                 {% endverbatim %}

@@ -22,16 +22,12 @@ class GroupForm(forms.Form):
         group_instance = models.groupModel()
         group_instance.groupName = self.cleaned_data["group_Name"]
         group_instance.groupAdmin = request.user
+        group_instance.groupImage = self.cleaned_data["group_image"]
         group_instance.save()
         # user_objects = models.userModel.objects.filter(userEmail=request.user.email)
         # print(user_objects[0])
         group_instance.groupUsers.add(request.user)
         return group_instance
-    # group_image_description = forms.CharField(
-    #     label="Image Description",
-    #     max_length=240,
-    #     required=False
-    # )
 
 ACTIVITY_CHOICES=[ ('Push Ups', 'Push Ups'),
     ('Sit Ups', 'Sit Ups'),

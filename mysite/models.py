@@ -15,11 +15,11 @@ class groupModel(models.Model):
     groupUsers = models.ManyToManyField(auth_user,related_name='groupUsers')
     groupAdmin = models.ForeignKey(auth_user, on_delete=models.CASCADE) #if i delete user, delete all info entered by that user
     added_on = models.DateTimeField(auto_now_add=True)
-    # groupImage = models.ImageField(
-    #     max_length = 144,
-    #     upload_to = 'uploads/%Y/%m/%d/',
-    #     null=True
-    # )
+    groupImage = models.ImageField(
+        max_length = 144,
+        upload_to = 'uploads/%Y/%m/%d/',
+        null=True
+    )
 
     def __str__(self):
         return str(self.groupName) + " " + str(self.groupAdmin.username)

@@ -38,7 +38,7 @@
     <div class="b grid-container">
         <div class="b large-4 medium-6 small-12 cell">
             
-            <form action="/createGroup/" method="post">
+            <form action="/createGroup/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="b grid-container">
                     <div class="b large-4 medium-4 small-4 cell">
