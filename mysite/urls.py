@@ -19,6 +19,8 @@ urlpatterns = [
     path('showActivity/<int:group_ID>/', views.showActivity_view),
     path('addActivity/<int:group_ID>/', views.addActivity_view),
     path('deleteActivity/<int:activity_ID>/', views.deleteActivity_view),
+    path('updateActivity/<int:activity_ID>/', views.updateActivity_view),
     path('showSchedule/', views.schedule_view),
+    path('markCompleted/<int:activity_ID>/', views.markCompleted_view),
     path('chat/<str:room_name>/', views.chat_view),
 ]

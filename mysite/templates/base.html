@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        div.b {
+            padding-top: 50px;
+            padding-left: 50px;
+        }
+
+        div.lh {
+            line-height: 60px;
+        }
+
+        div.c {
+            position: absolute;
+            right: 150px;
+            width: 200px;
+            height: 120px;
+        }
+
+    </style>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
+</head>
+
+<body style="background-image: url('/static/media/wrec.jpg')">
+
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li class="menu-text">{{ body }}</li>
+                {% if request.user.is_authenticated %}
+                <li><a href="/logout/">LogOut</a></li>
+                {% else %}
+                <li><a href="/login/">LogIn</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                {% if request.user.is_authenticated %}
+                <li><a href="/">Dashboard</a></li>
+                <li class="menu-text">Hi {{ request.user.username }}</li>
+                {% else %}
+                <li class="menu-text">Welcome Guest</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+    <script src="{% static 'js/vendor.js' %}"></script>
+    <script src="{% static 'js/app.min.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+
+</html>

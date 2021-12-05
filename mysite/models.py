@@ -3,13 +3,6 @@ from django.contrib.auth.models import User as auth_user
 
 # Create your models here.
 
-# class userModel(models.Model):
-#     userName = models.CharField(max_length=300)
-#     userEmail = models.EmailField(max_length=250)
-
-#     def __str__(self):
-#         return str(self.userName) + " " + str(self.userEmail) 
-
 class groupModel(models.Model):
     groupName = models.CharField(max_length=300)
     groupUsers = models.ManyToManyField(auth_user,related_name='groupUsers')
@@ -43,3 +36,11 @@ class activityModel(models.Model):
 
     def __str__(self):
         return str(self.group) + " " + str(self.addedBy.username) + " " + str(self.activity_name) + " " + str(self.activity_added_on)
+
+class userActivityModel(models.Model):
+    activity= models.ForeignKey(activityModel, on_delete=models.CASCADE)   
+    user = models.ForeignKey(auth_user, on_delete=models.CASCADE)  
+    is_completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.activity) + " " + str(self.user.username) + " " + str(self.is_completed)

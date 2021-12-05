@@ -1,61 +1,21 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
+{% block title %}{{ title }}{% endblock %}
 
-<head>
-    <style>
-        div.b {
-            line-height: 60px;
-        }
-    </style>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
-</head>
+{% block content %}
 
-<body>
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <ul class="menu">
-                <li class="menu-text">GymBuddy</li>
-                {% if request.user.is_authenticated %}
-                <li><a href="/logout/">LogOut</a></li>
-                {% else %}
-                <li><a href="/login/">LogIn</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <div class="top-bar-right">
-            <ul class="menu">
-                {% if request.user.is_authenticated %}
-                <li class="menu-text">Hi {{ request.user.username }}</li>
-                {% else %}
-                <li class="menu-text">Welcome Guest</li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-
-    <div class="b grid-container">
-        <div class="large-4 medium-4 small-12 cell">
-            <h3>{{ body }}</h3>  
-            <div class="grid-x grid-padding-x">
-                <div class="large-4 medium-6 small-12 cell">
-                    {% for r in activityList %}
-                    <div class="card">
-                        <div class="card-section">
-                            <b> {{ r.activity_name }} </b> <b> {{ r.number_of_sets }} </b> 
-                        </div>
-                    </div>
-                    {% endfor %}
+<div class="grid-x">
+    <div class="b cell medium-6 large-8 small-12">
+        <div class="grid-x ">
+            {% for r in activityList %}
+            <div class="card large-4 medium-6 small-12" style="margin: 10px">
+                <div class="card-section">
+                    <b> {{ r.activity_name }} </b> <b> {{ r.number_of_sets }} </b>
+                    <a href="/markCompleted/{{r.id}}/" class="button">Mark Completed</a>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
-
-
-    <script src="{% static 'js/vendor.js' %}"></script>
-    <script src="{% static 'js/app.min.js' %}"></script>
-    <!-- vuejs for index page -->
-</body>
-
-</html>
+</div>
+{% endblock %}

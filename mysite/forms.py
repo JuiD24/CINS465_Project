@@ -24,8 +24,6 @@ class GroupForm(forms.Form):
         group_instance.groupAdmin = request.user
         group_instance.groupImage = self.cleaned_data["group_image"]
         group_instance.save()
-        # user_objects = models.userModel.objects.filter(userEmail=request.user.email)
-        # print(user_objects[0])
         group_instance.groupUsers.add(request.user)
         return group_instance
 
@@ -53,8 +51,13 @@ class ActivityForm(forms.Form):
         activity_instance.number_of_sets = self.cleaned_data["number_of_sets"]
         activity_instance.addedBy = request.user
         activity_instance.save()
+        gymbuddy_list = groupModel_instance.groupUsers.all()
+        for gbuddy in gymbuddy_list:
+            userActivity_instance = models.userActivityModel()
+            userActivity_instance.user = gbuddy
+            userActivity_instance.activity = activity_instance
+            userActivity_instance.save()
         return activity_instance
-
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
@@ -77,8 +80,4 @@ class RegistrationForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
-            # user_instance = models.userModel()
-            # user_instance.userName = self.cleaned_data["username"]
-            # user_instance.userEmail = self.cleaned_data["email"]
-            # user_instance.save()
         return user

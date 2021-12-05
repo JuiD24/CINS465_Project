@@ -5,3 +5,4 @@ from . import models
 admin.site.register(models.groupModel)
 admin.site.register(models.requestModel)
 admin.site.register(models.activityModel)
+admin.site.register(models.userActivityModel)

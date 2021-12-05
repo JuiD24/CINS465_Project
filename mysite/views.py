@@ -18,7 +18,10 @@ def index(request):
     return render(request,"index.html", context=context)
 
 def showGroups(request):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     context = {
+        "title": "Gym Buddy",
         "body" : "Your Groups",
     }
     return render(request,"showGroups.html", context=context)
@@ -34,7 +37,8 @@ def createGroup(request):
     else:
         form = forms.GroupForm()
     context = {
-        "title": "Create Group Page",
+        "title": "Gym Buddy",
+        "body": "Create Group Page",
         "form" : form
     }    
     return render(request,"createGroup.html", context=context)    
@@ -43,11 +47,14 @@ def joinGroup(request):
     if not request.user.is_authenticated:
         return redirect ("/login/")
     context = {
+        "title": "Gym Buddy",
         "body" : "Join Groups",
     }
     return render(request,"joinGroups.html", context=context)
 
 def joinGroupList(request):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     objects = models.groupModel.objects.exclude(groupUsers= (request.user))
     groupDict = {}
     groupDict["groupLists"] = []
@@ -81,9 +88,8 @@ def joinGroupList(request):
     return JsonResponse(groupDict) 
 
 def groupList_view(request):
-    # console.log("") p2.article_set.all()  models.groupModel.objects.all()--> groupModel.objects.filter(groupUsers = request.user)
-    # print("list 1", models.groupModel.objects.filter(groupUsers = request.user))
-    print("group list view ",(request.user).groupmodel_set.all())  #-----------------------------------------
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     groupobjects = models.groupModel.objects.filter(groupUsers = request.user)
     groupDict = {}
     groupDict["groupLists"] = []
@@ -111,11 +117,11 @@ def groupList_view(request):
                 else:    
                     temp_group["date"] = groupObj.added_on.strftime("%Y-%m-%d")    
         groupDict["groupLists"] += [temp_group]
-        print("group dic", groupDict)
     return JsonResponse(groupDict) 
 
 def request_view(request, group_ID, groupAdmin_ID):
-    print(group_ID ,groupAdmin_ID, request.user.id)
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     groupModel_instance = models.groupModel.objects.get(id=group_ID)
     user_instance = models.auth_user.objects.get(id =groupAdmin_ID)
     request_instance = models.requestModel()
@@ -124,16 +130,18 @@ def request_view(request, group_ID, groupAdmin_ID):
     request_instance.requested_User = request.user
     request_instance.save()
     context = {
+        "title": "Gym Buddy",
         "body" : "Join Groups",
     }
     return render(request,"joinGroups.html", context=context)
 
 def request_page_view(request):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     request_from_other_users = models.requestModel.objects.filter(group_Admin=request.user)
     request_to_join_other_groups = models.requestModel.objects.filter(requested_User = request.user)
-    print(request_from_other_users)
-    print(request_to_join_other_groups)
     context = {
+        "title": "Gym Buddy",
         "body":"Your Request",
         "request_from_other_users_list": request_from_other_users,
         "request_to_join_other_groups" : request_to_join_other_groups,
@@ -141,37 +149,35 @@ def request_page_view(request):
     return render(request,"showRequest.html", context=context) 
 
 def acceptRequest_view(request, req_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     request_obj = models.requestModel.objects.get(id = req_ID)
     request_obj.is_approved = True
     request_obj.group.groupUsers.add(request_obj.requested_User)
     request_obj.save()
-    # print("request obj ",request_obj.group)
     return redirect("/requestPage/")
-    # group_instance = models.groupModel.objects.filter(id = req_ID)request_obj.group.
-    # groupUsers.add(request_obj.requested_User)
-    # request_page_view(request)
-    #change is_approved = true
-    # take group obj...filter n then add requsted user to it group_instance.groupUsers.add(request.user)
 
 def declineRequest_view(request, req_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     request_obj = models.requestModel.objects.get(id = req_ID)
     request_obj.delete()
     return redirect("/requestPage/")
 
 def showActivity_view(request, group_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     groupModel_instance = models.groupModel.objects.get(id=group_ID)
     gymbuddy_list = groupModel_instance.groupUsers.all()
     present = datetime.now()
-    print("presennt ",present.date())
     activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
     activity_list=[]
     for activity in activity_objects:
-        print("acti date ",activity.activity_added_on.date())
         # if(activity.activity_added_on.date() == present.date()):
         activity_list.append(activity)
-    print(activity_list)
 
     context = {
+        "title": "Gym Buddy",
         "body":"Today's Activities",
         "group_id": group_ID,
         "activity_list" : activity_list,
@@ -180,6 +186,8 @@ def showActivity_view(request, group_ID):
     return render(request,"showActivity.html", context=context) 
 
 def addActivity_view(request, group_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     if request.method == "POST":
         form = forms.ActivityForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
@@ -188,6 +196,7 @@ def addActivity_view(request, group_ID):
     else:
         form = forms.ActivityForm()
     context = {
+        "title": "Gym Buddy",
         "body":"Add Activities",
         "form" : form,
         "group_id" : group_ID
@@ -195,25 +204,59 @@ def addActivity_view(request, group_ID):
     return render(request,"addActivity.html", context=context) 
 
 def deleteActivity_view(request, activity_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
     activity = models.activityModel.objects.get(id = activity_ID)
     groupId = activity.group.id
     activity.delete()
     return redirect("/showActivity/"+str(groupId)+"/")
 
-def schedule_view(request):
-    userGroups = models.groupModel.objects.filter(groupUsers = request.user)
-    activityList = []
-    present = datetime.now()
-    for groupModel_instance in userGroups:
-        activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
-        for activity in activity_objects:
-            # if(activity.activity_added_on.date() == present.date()):
-            activityList.append(activity)
+def updateActivity_view(request, activity_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
+    if request.method == "POST":
+        activity = models.activityModel.objects.get(id = activity_ID)
+        activity.activity_name = request.POST["activityName"]
+        activity.number_of_sets = request.POST["number_of_sets"]
+        activity.addedBy = request.user
+        activity.save()
+        groupId = activity.group.id
+        return redirect("/showActivity/"+str(groupId)+"/")
+    else:
+        form = forms.ActivityForm()
     context = {
+        "title": "Gym Buddy",
+        "body":"Edit Activities",
+        "form" : form,
+        "activity_ID":activity_ID
+    }
+    return render(request,"editActivity.html", context=context) 
+
+def schedule_view(request):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
+    userActivity = models.userActivityModel.objects.filter(user = request.user)
+    activityList=[]
+    for userActivity_instance in userActivity:
+            # if(activity.activity_added_on.date() == present.date()):
+            if userActivity_instance.is_completed == False:
+                activityList.append(userActivity_instance.activity)
+    context = {
+        "title": "Gym Buddy",
         "body":"Your Schedule",
         "activityList" : activityList
     }
     return render(request,"showSchedule.html", context=context) 
+
+def markCompleted_view(request, activity_ID):
+    if not request.user.is_authenticated:
+        return redirect ("/login/")
+    activity = models.activityModel.objects.get(id = activity_ID)    
+    userActivity = models.userActivityModel.objects.filter(user = request.user).filter(activity=activity)
+    for uActivity in userActivity:
+        uActivity.is_completed = True
+        uActivity.save()
+    return redirect("/showSchedule/")
 
 def chat_view(request, room_name):
     if not request.user.is_authenticated:
@@ -227,7 +270,7 @@ def register_view(request):
     if request.method == "POST":
         form = forms.RegistrationForm(request.POST)
         if form.is_valid():
-            form.registerUser(request)    #registration form -> registerUser function 
+            form.registerUser(request)   
             return redirect("/login/")
     else:    
         form = forms.RegistrationForm()

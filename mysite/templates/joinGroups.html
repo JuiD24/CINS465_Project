@@ -1,73 +1,35 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
+{% block title %}{{ body }}{% endblock %}
+{% block content %}
 
-<head>
-    <style>
-        div.b {
-            line-height: 60px;
-        }
-    </style>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
-</head>
 
-<body>
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <ul class="menu">
-                <li class="menu-text">GymBuddy</li>
-                {% if request.user.is_authenticated %}
-                <li><a href="/logout/">LogOut</a></li>
-                {% else %}
-                <li><a href="/login/">LogIn</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <div class="top-bar-right">
-            <ul class="menu">
-                {% if request.user.is_authenticated %}
-                <li class="menu-text">Hi {{ request.user.username }}</li>
-                {% else %}
-                <li class="menu-text">Welcome Guest</li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-
-    <div class="b grid-container">
-        <div class="large-4 medium-4 small-12 cell">
-            <h3>{{ body }}</h3>
-        </div>
-        <div id="JoinGrouplist-rendering">
-            <div class="grid-x grid-padding-x">
-                <div class="large-4 medium-6 small-12 cell" v-for="o in joinGroupList">
-                    <div class="card">
-                        <img v-bind:src="o.image"/>
-                        <div class="card-section">
-                            {% verbatim %}
-                            <b>{{ o.groupName}} </b> Added by {{o.groupAdmin}} - {{o.date}}
-                            {% endverbatim %}
-                            <div>
-                                <a v-bind:href="'/request/'+o.groupID+'/'+o.groupAdminID+'/'" class="button">Send Request</a>
-                            </div>
+<div class="b grid-container">
+    <div id="JoinGrouplist-rendering">
+        <div class="grid-x grid-padding-x">
+            <div class="large-4 medium-6 small-12 cell" v-for="o in joinGroupList">
+                <div class="lh card">
+                    <img v-bind:src="o.image" width="400" />
+                    <div class="card-section">
+                        {% verbatim %}
+                        <b>{{ o.groupName}} </b> Added by {{o.groupAdmin}} - {{o.date}}
+                        {% endverbatim %}
+                        <div>
+                            <a v-bind:href="'/request/'+o.groupID+'/'+o.groupAdminID+'/'" class="button">Send
+                                Request</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+</div>
+
+{% endblock %}
 
 
-    <script src="{% static 'js/vendor.js' %}"></script>
-    <script src="{% static 'js/app.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
-
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="{% static 'js/joinGroup.js' %}"></script>
-    <!-- vuejs for index page -->
-</body>
-
-</html>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@next"></script>
+<script src="{% static 'js/joinGroup.js' %}"></script>
+{% endblock %}

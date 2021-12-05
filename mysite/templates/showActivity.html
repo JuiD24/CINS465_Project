@@ -1,75 +1,38 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
+{% block title %}{{ title }}{% endblock %}
 
-<head>
-    <style>
-        div.b {
-            line-height: 60px;
-        }
-    </style>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/app.min.css' %}">
-</head>
+{% block content %}
 
-<body>
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <ul class="menu">
-                <li class="menu-text">GymBuddy</li>
-                {% if request.user.is_authenticated %}
-                <li><a href="/logout/">LogOut</a></li>
-                {% else %}
-                <li><a href="/login/">LogIn</a></li>
-                {% endif %}
-            </ul>
+<div class="grid-x">
+    <div class="b cell medium-6 large-8">
+        <div class="grid-x ">
+            {% for activity in activity_list %}
+            <div class="lh card large-4  medium-6 small-12 spacing" style="margin: 10px">
+                <div class="card-section">
+                    <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b>
+                        {{activity.addedBy.username }} </b>
+                    <div>
+                        <a href="/deleteActivity/{{activity.id}}/" class="alert button">Delete</a>
+                        <a href="/updateActivity/{{activity.id}}/" class="button">Edit </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <div class="top-bar-right">
-            <ul class="menu">
-                {% if request.user.is_authenticated %}
-                <li class="menu-text">Hi {{ request.user.username }}</li>
-                {% else %}
-                <li class="menu-text">Welcome Guest</li>
-                {% endif %}
-            </ul>
+        <a href="/addActivity/{{group_id}}/" class="success button" style="margin-top: 25px">Add Activity</a>
+    </div>
+    <div class="c b cell medium-6 large-3">
+        <div class="grid-x ">
+            <h3>Your Buddies <a href="/chat/{{group_id}}/"> <img src="https://img.icons8.com/external-sbts2018-blue-sbts2018/58/000000/external-chat-social-media-basic-1-sbts2018-blue-sbts2018-1.png" /> </a> </h3>
+            {% for gymbuddy in gymbuddy_list %}
+            <div class="card large-9">
+                <div class="card-section text-center">
+                    <b> {{gymbuddy.username}}</b>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
-    <div class="b grid-container">
-        <div class="grid-x grid-padding-x">
-            <div class="large-9 medium-6 small-12 cell">
-                <h3>{{ body }}</h3>
-                {% for activity in activity_list %}
-                <div class="card">
-                    <div class="card-section">
-                        <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b> {{activity.addedBy.username }} </b>
-                        <div>
-                            <a href="/deleteActivity/{{activity.id}}/" class="alert button">Delete Activity</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                <a href="/addActivity/{{group_id}}/" class="success button">Add Activity</a>
-
-            </div>
-            <div class="large-3 medium-6 small-12 cell">
-                <h3>Your Buddies  <a href="/chat/{{group_id}}/"><img src="https://img.icons8.com/external-sbts2018-blue-sbts2018/58/000000/external-chat-social-media-basic-1-sbts2018-blue-sbts2018-1.png"/></a>
-                </h3>
-                {% for gymbuddy in gymbuddy_list %}
-                <div class="card">
-                    <div class="card-section">
-                        <b> {{gymbuddy.username}}</b>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>   
-    </div>
-
-
-    <script src="{% static 'js/vendor.js' %}"></script>
-    <script src="{% static 'js/app.min.js' %}"></script>
-   
-</body>
-
-</html>
+    {% endblock %}
