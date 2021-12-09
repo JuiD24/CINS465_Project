@@ -3,9 +3,13 @@ version: '3'
 
 services:
   web:
+    restart: always
     build: .
     volumes:
        - .:/code
-    ports:
-       - 80:8000        
+    expose: 
+       - 8000  
+   #  ports:
+   #     - 80:8000  
+    user: 1001:1002 ## needed for linux      
     command: python /code/manage.py runserver 0.0.0.0:8000

@@ -10,8 +10,8 @@
             <div class="card cardShadow">
                 <form action="/createGroup/" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="lh grid-container" style="margin-top: 25px;">
-                        <div class="lh large-4 medium-4 small-4 cell">
+                    <div class="grid-container" style="margin-top: 25px;">
+                        <div class="large-4 medium-4 small-4 cell">
                             {{ form }}
                             <input type="submit" class="button expanded" style="background-color: yellowgreen;" value="Create">
                         </div>
