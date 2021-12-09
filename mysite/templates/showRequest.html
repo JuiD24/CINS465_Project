@@ -3,32 +3,32 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="b lh grid-container">
-    <div class="grid-x grid-padding-x">
-        <div class="large-6 medium-4 small-12 cell">
-            {% for r in request_from_other_users_list %}
-            {% if r.is_approved == False %}
-            <div class="card">
-                <div class="card-section">
-                    <b> {{ r.requested_User.username }} </b> requested to join your <b> {{ r.group.groupName }} </b>
-                    group
+
+<div class="b grid-x grid-padding-x">
+    <div class="cell medium-6 large-12 small-12">
+        <div class="grid-x">
+                {% for r in request_from_other_users_list %}
+                {% if r.is_approved == False %}
+                <div class="card large-3 medium-6 small-12" style="margin: 10px">
+                    <div class="lh card-section text-center">
+                        <b> {{ r.requested_User.username }} </b> requested to join your <b> {{ r.group.groupName }} </b>
+                        group
+                        <a href="/acceptGroupRequest/{{r.id}}/"><img src="https://img.icons8.com/stickers/48/000000/checked.png"/></a>
+                        <a href="/declineGroupRequest/{{r.id}}/"><img src="https://img.icons8.com/stickers/48/000000/cancel.png"/></a>
+                    </div>  
                 </div>
-                <div>
-                    <a href="/acceptGroupRequest/{{r.id}}/" class="success button">Accept</a>
-                    <a href="/declineGroupRequest/{{r.id}}/" class="alert button">Decline</a>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
+                {% endif %}
+                {% endfor %}
         </div>
     </div>
-    <div class="grid-x grid-padding-x">
-        <div class="large-5 medium-4 small-12 cell">
+    <div class="cell medium-6 large-12 small-12">
+        <div class="grid-x">
             {% for r in request_to_join_other_groups %}
-            <div class="card">
+            <div class="card large-3 medium-6 small-12" style="margin: 10px">
                 <div class="card-section">
                     {% if r.is_approved == False %}
                     You requested to join <b> {{ r.group.groupName }} </b> group
+                    <p>- Created by {{r.group.groupAdmin.username}}</p>
                     {% else %}
                     Your request to join <b>{{ r.group.groupName }}</b> is approved !!
                     {% endif %}

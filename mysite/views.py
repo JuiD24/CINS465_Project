@@ -168,20 +168,24 @@ def showActivity_view(request, group_ID):
     if not request.user.is_authenticated:
         return redirect ("/login/")
     groupModel_instance = models.groupModel.objects.get(id=group_ID)
+    gymbuddyList=[]
     gymbuddy_list = groupModel_instance.groupUsers.all()
+    for buddy in gymbuddy_list:
+        if buddy != request.user:
+            gymbuddyList.append(buddy)
     present = datetime.now()
     activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
     activity_list=[]
     for activity in activity_objects:
-        # if(activity.activity_added_on.date() == present.date()):
-        activity_list.append(activity)
+        if(activity.activity_added_on.date() == present.date()):
+            activity_list.append(activity)
 
     context = {
         "title": "Gym Buddy",
         "body":"Today's Activities",
         "group_id": group_ID,
         "activity_list" : activity_list,
-        "gymbuddy_list" : gymbuddy_list,
+        "gymbuddy_list" : gymbuddyList,
     }
     return render(request,"showActivity.html", context=context) 
 
@@ -237,14 +241,25 @@ def schedule_view(request):
         return redirect ("/login/")
     userActivity = models.userActivityModel.objects.filter(user = request.user)
     activityList=[]
-    for userActivity_instance in userActivity:
-            # if(activity.activity_added_on.date() == present.date()):
-            if userActivity_instance.is_completed == False:
-                activityList.append(userActivity_instance.activity)
+    present = datetime.now()
+    print(present.date())
+    print(len(userActivity))
+    ActivityNotDone=0
+    progress=0
+    if userActivity:
+        for userActivity_instance in userActivity:
+            print(userActivity_instance.activity.activity_added_on)
+            if(userActivity_instance.activity.activity_added_on.date() == present.date()):
+                if userActivity_instance.is_completed == False:
+                    ActivityNotDone+=1
+                    activityList.append(userActivity_instance.activity)
+        progress = ((len(userActivity) - ActivityNotDone)/len(userActivity))*100
+        print(progress)
     context = {
         "title": "Gym Buddy",
         "body":"Your Schedule",
-        "activityList" : activityList
+        "activityList" : activityList,
+        "progress" : int(progress),
     }
     return render(request,"showSchedule.html", context=context) 
 
@@ -261,10 +276,14 @@ def markCompleted_view(request, activity_ID):
 def chat_view(request, room_name):
     if not request.user.is_authenticated:
         return redirect ("/login/")
-    context ={
-        "room_name" : room_name
-    }
-    return render(request,"chatroom.html", context=context)
+    groupobjects = models.groupModel.objects.filter(groupUsers = request.user).filter(id=room_name)
+    if groupobjects:
+        context ={
+            "room_name" : room_name
+        }
+        return render(request,"chatroom.html", context=context)
+    else:
+        return redirect("/")
 
 def register_view(request):
     if request.method == "POST":

@@ -3,22 +3,19 @@
 {% block title %}{{ body }}{% endblock %}
 {% block content %}
 
-
 <div class="b grid-container">
     <div id="JoinGrouplist-rendering">
         <div class="grid-x grid-padding-x">
             <div class="large-4 medium-6 small-12 cell" v-for="o in joinGroupList">
-                <div class="lh card">
-                    <img v-bind:src="o.image" width="400" />
+                <div class="card text-center">
+                    <img v-bind:src="o.image" width="400" height="200" />
                     <div class="card-section">
                         {% verbatim %}
                         <b>{{ o.groupName}} </b> Added by {{o.groupAdmin}} - {{o.date}}
                         {% endverbatim %}
-                        <div>
-                            <a v-bind:href="'/request/'+o.groupID+'/'+o.groupAdminID+'/'" class="button">Send
-                                Request</a>
-                        </div>
                     </div>
+                    <a v-bind:href="'/request/'+o.groupID+'/'+o.groupAdminID+'/'" class="button text-center"
+                        style="background-color: yellowgreen;">Send Request</a>
                 </div>
             </div>
         </div>
@@ -26,7 +23,6 @@
 </div>
 
 {% endblock %}
-
 
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

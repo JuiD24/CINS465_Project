@@ -4,19 +4,24 @@
 
 {% block content %}
 
-<div class="b lh grid-container">
-    <div class="card large-3 medium-4 small-12 cell">
-        <form action="/addActivity/{{group_id}}/" method="post">
-            {% csrf_token %}
-            <div class="lh grid-container">
-                <div class="lh large-4 medium-4 small-4 cell">
-                    {{ form }}
-                    <input type="submit" class="button" value="Add">
-                </div>
+<div class="b grid-container">
+    <div class="grid-x ">
+        <div class="large-3"></div>
+        <div class="large-6 medium-6 small-12 cell">
+            <div class="card cardShadow">
+                <form action="/addActivity/{{group_id}}/" method="post">
+                    {% csrf_token %}
+                    <div class="lh grid-container" style="margin-top: 25px;">
+                        <div class="lh large-4 medium-4 small-4 cell">
+                            {{ form }}
+                            <input type="submit" class="button expanded" style="background-color: yellowgreen;" value="Add">
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
+        <div class="large-3"></div>
     </div>
-
 </div>
 
 {% endblock %}

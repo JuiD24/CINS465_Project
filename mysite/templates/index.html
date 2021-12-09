@@ -4,67 +4,61 @@
 
 {% block content %}
 
-<div class="grid-x">
+<div class="grid-x grid-padding-x">
     <div class="b cell medium-6 large-3">
-        <a href="createGroup/" class="card">
-            <div>
-                <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                <div class="card-section">
-                    <p>Create Group</p>
-                </div>
+        <a href="createGroup/" class="card" style="margin: 10px">
+            <div class="card-section text-center">
+                <img src="https://img.icons8.com/material-rounded/60/000000/add-user-group-man-man.png" />
+            </div>
+            <div class="card-section text-center">
+                <p>Create Group</p>
             </div>
         </a>
     </div>
-
     <div class="b cell medium-6 large-3">
-        <a href="joinGroup/" class="card">
-            <div>
-                <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                <div class="card-section">
-                    <p>Join Group</p>
-                </div>
+        <a href="joinGroup/" class="card" style="margin: 10px">
+            <div class="card-section text-center">
+                <img src="https://img.icons8.com/ios-filled/60/000000/query-inner-join.png" />
+            </div>
+            <div class="card-section text-center">
+                <p>Join Group</p>
+            </div>
+        </a>
+    </div>
+    <div class="b cell medium-6 large-3">
+        <a href="/groupListPage" class="card" style="margin: 10px">
+            <div class="card-section text-center">
+                <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/000000/external-group-miscellaneous-kiranshastry-solid-kiranshastry.png"/>
+            </div>
+            <div class="card-section text-center">
+                <p>Your Groups</p>
             </div>
         </a>
     </div>
 </div>
-
-<div class="grid-x">
+<div class="grid-x grid-padding-x">
     <div class="b cell medium-6 large-3">
-        <a href="/groupListPage" class="card">
-            <div>
-                <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                <div class="card-section">
-                    <p>Your Groups</p>
-                </div>
+        <a href="/requestPage" class="card" style="margin: 10px">
+            <div class="card-section text-center">
+                <img src="https://img.icons8.com/ios/60/000000/post-office.png"/>
+            </div>
+            <div class="card-section text-center">
+                <p>Your Group Requests</p>
             </div>
         </a>
     </div>
-
     <div class="b cell medium-6 large-3">
-        <a href="/requestPage" class="card">
-            <div>
-                <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                <div class="card-section">
-                    <p>Your Group Requests</p>
-                </div>
+        <a href="/showSchedule" class="card" style="margin: 10px">
+            <div class="card-section text-center">
+                <img src="https://img.icons8.com/fluency-systems-regular/60/000000/overtime.png"/>
             </div>
-        </a>
-    </div>
-
-    <div class="b cell medium-6 large-3">
-        <a href="/showSchedule" class="card">
-            <div>
-                <!-- <img src="assets/img/generic/rectangle-1.jpg"> -->
-                <div class="card-section">
-                    <p>Your schedule</p>
-                </div>
-            </div>
+            <div class="card-section text-center">
+                <p>Your schedule</p>
+            </div> 
         </a>
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
-
 <script src="{% static 'css/foundation.css' %}"></script>
 {% endblock %}

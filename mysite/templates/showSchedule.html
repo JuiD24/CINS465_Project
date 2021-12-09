@@ -3,19 +3,72 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+<style>
+    #progress-spinner {
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+    }
 
-<div class="grid-x">
-    <div class="b cell medium-6 large-8 small-12">
+    #middle-circle {
+        position: absolute;
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        background-color: rgb(248, 248, 248);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: large;
+        font-weight: bold;
+    }
+</style>
+
+<div class="grid-x grid-padding-x">
+    <div class="b cell medium-6 large-12 small-12">
         <div class="grid-x ">
-            {% for r in activityList %}
-            <div class="card large-4 medium-6 small-12" style="margin: 10px">
-                <div class="card-section">
-                    <b> {{ r.activity_name }} </b> <b> {{ r.number_of_sets }} </b>
-                    <a href="/markCompleted/{{r.id}}/" class="button">Mark Completed</a>
+            <div class="b cell medium-6 large-8 small-12">
+                <div class="grid-x ">
+                    {% for r in activityList %}
+                    <div class="card large-4 medium-6 small-12" style="margin: 10px">
+                        <div class="card-section text-center">
+                            <b> {{ r.activity_name }} </b> <b> {{ r.number_of_sets }} </b>
+                        </div>
+                        <a href="/markCompleted/{{r.id}}/" class="button" style="background-color:yellowgreen">Mark Completed</a>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+            <div class="b cell medium-6 large-4 small-12">
+                <div class=" large-4 medium-6 small-12" style="margin: 10px">
+                    <div style="position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+                        <h3 style="color: white;"> Your Progress </h3>
+                        <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+                            <div id="middle-circle">{{progress}}%</div>
+                            <div id="progress-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<script>
+    function setProgress() {
+        progress = document.getElementById("middle-circle").innerHTML
+        document.getElementById("progress-spinner").style.background =
+            "conic-gradient(rgb(154, 205, 50) " +
+            progress +
+            ",rgb(242, 242, 242) " +
+            progress +
+            ")";
+
+        document.getElementById("middle-circle").innerHTML =
+            progress.toString();
+    }
+
+    window.onload = function () {
+        setProgress();
+    };
+</script>
 {% endblock %}

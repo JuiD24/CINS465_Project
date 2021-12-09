@@ -4,35 +4,63 @@
 
 {% block content %}
 
-<div class="grid-x">
-    <div class="b cell medium-6 large-8">
+<div class="grid-x grid-padding-x">
+    <div class="b cell medium-6 large-12 small-12">
         <div class="grid-x ">
-            {% for activity in activity_list %}
-            <div class="lh card large-4  medium-6 small-12 spacing" style="margin: 10px">
-                <div class="card-section">
-                    <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b>
-                        {{activity.addedBy.username }} </b>
-                    <div>
-                        <a href="/deleteActivity/{{activity.id}}/" class="alert button">Delete</a>
-                        <a href="/updateActivity/{{activity.id}}/" class="button">Edit </a>
+            <div class="b cell medium-6 large-9 small-12">
+                <div class="grid-x ">
+                    <div class="cell medium-6 large-12 small-12">
+                        <div class="grid-x ">
+                            {% for activity in activity_list %}
+                            <div class="lh card large-4  medium-6 small-12 spacing" style="margin: 10px">
+                                <div class="card-section text-center">
+                                    <b> {{ activity.activity_name }} {{ activity.number_of_sets}}</b> Added by <b>
+                                        {{activity.addedBy.username }} </b>
+                                        <div>
+                                            <a href="/deleteActivity/{{activity.id}}/"><img
+                                                    src="https://img.icons8.com/plasticine/48/000000/filled-trash.png" /></a>
+                                            <a href="/updateActivity/{{activity.id}}/"><img
+                                                    src="https://img.icons8.com/cute-clipart/48/000000/edit.png" /> </a>
+
+                                        </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="cell medium-6 large-12 small-12">
+                        <div class="grid-x ">
+                            <div class="large-2 medium-6 small-12 spacing" style="margin: 10px">
+                                <a href="/addActivity/{{group_id}}/" class="card large-2">
+                                    <div class="card-section text-center">
+                                        <img src="https://img.icons8.com/color/30/000000/add--v1.png" />
+                                    </div>
+                                    <div class="card-section text-center">
+                                        <p>Add Activity</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        <a href="/addActivity/{{group_id}}/" class="success button" style="margin-top: 25px">Add Activity</a>
-    </div>
-    <div class="c b cell medium-6 large-3">
-        <div class="grid-x ">
-            <h3>Your Buddies <a href="/chat/{{group_id}}/"> <img src="https://img.icons8.com/external-sbts2018-blue-sbts2018/58/000000/external-chat-social-media-basic-1-sbts2018-blue-sbts2018-1.png" /> </a> </h3>
-            {% for gymbuddy in gymbuddy_list %}
-            <div class="card large-9">
-                <div class="card-section text-center">
-                    <b> {{gymbuddy.username}}</b>
+            <div class="b cell medium-6 large-3 small-12">
+                <div class=" large-2 medium-6 small-12 text-center" style="margin: 10px">
+                    <h3 style="color: white;">Your Buddies <a href="/chat/{{group_id}}/">
+                        <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/48/000000/external-chat-notifications-justicon-lineal-color-justicon.png"/>
+                        </a> </h3>
+                    {% for gymbuddy in gymbuddy_list %}
+                    <div class="card">
+                        <div class="card-section ">
+                            <b> {{gymbuddy.username}}</b>
+                        </div>
+                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}

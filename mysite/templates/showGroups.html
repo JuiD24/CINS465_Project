@@ -6,23 +6,20 @@
 <div class="b grid-container">
     <div id="list-rendering">
         <div class="grid-x grid-padding-x">
-            <div class="large-4 medium-6 small-12 cell" v-for="o in groupList">
-                <a v-bind:href="'/showActivity/'+o.group_id+'/'" class="card">
-                    <div>
-                        <div class="card-divider">
-                            {% verbatim %}
-                            <b>{{ o.groupName}}</b>
-                            {% endverbatim %}
-                        </div>
-                        <img v-bind:src="o.image" width="400" />
-                        <div class="card-section">
-                            Added by {% if request.user.username == o.groupAdmin %} You {% else %} {% verbatim %}
-                            {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
-                            {% endverbatim %}
-                        </div>
+            <div class="large-3 medium-4 small-12 cell" v-for="o in groupList">
+                <a v-bind:href="'/showActivity/'+o.group_id+'/'" class="card text-center">
+                    <div class="card-divider text-center">
+                        {% verbatim %}
+                        <b>{{ o.groupName}}</b>
+                        {% endverbatim %}
+                    </div>
+                    <img v-bind:src="o.image" height="400" width="400"/>
+                    <div class="card-section text-center">
+                        Added by {% if request.user.username == o.groupAdmin %} You {% else %} {% verbatim %}
+                        {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
+                        {% endverbatim %}
                     </div>
                 </a>
-
             </div>
         </div>
     </div>
