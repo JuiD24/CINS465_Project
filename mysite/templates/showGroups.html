@@ -14,9 +14,6 @@
                         {% endverbatim %}
                     </div>
                     <img v-bind:src="o.image" height="400" width="400"/>
-                    <!-- {% if o.image %} -->
-                        <!-- <img v-bind:src="o.image" height="400" width="400"/> -->
-                    <!-- {% endif %}     -->
                     <div class="card-section text-center">
                         Added by {% if request.user.username == o.groupAdmin %} You {% else %} {% verbatim %}
                         {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
