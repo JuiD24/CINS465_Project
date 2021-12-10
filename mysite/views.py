@@ -31,6 +31,7 @@ def createGroup(request):
         return redirect ("/login/")
     if request.method == "POST":
         form = forms.GroupForm(request.POST, request.FILES)
+        print(request.FILES)
         if form.is_valid() and request.user.is_authenticated:
             form.saveGroup(request)
             return redirect("/")
