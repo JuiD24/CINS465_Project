@@ -13,3 +13,14 @@ services:
    #     - 80:8000  
     user: 1001:1002 ## needed for linux      
     command: python /code/manage.py runserver 0.0.0.0:8000
+  
+  nginx:
+   restart: always
+   build: ./nginx/
+   depends_on:
+      - web
+   ports:
+      - 80:80
+   links:
+      - web:web
+ 
