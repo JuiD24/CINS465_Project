@@ -11,7 +11,7 @@ services:
        - 8000  
    #  ports:
    #     - 80:8000  
-    user: 1001:1002 ## needed for linux      
+    user: 1002:1003 ## needed for linux      
     command: python /code/manage.py runserver 0.0.0.0:8000
   
   nginx:
