@@ -3,6 +3,15 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+<style>
+    .dot {
+      height: 25px;
+      width: 25px;
+      background-color: red;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    </style>
 
 <div class="grid-x grid-padding-x">
     <div class="b cell medium-6 large-3">
@@ -43,7 +52,10 @@
                 <img src="https://img.icons8.com/ios/60/000000/post-office.png"/>
             </div>
             <div class="card-section text-center">
-                <p>Your Group Requests</p>
+               <p >Your Group Requests 
+                {% verbatim %}
+                <span id="totalRequest"> <span v-if="totalRequest" class="dot"> {{totalRequest}} </span> </span></p>
+                {% endverbatim %}
             </div>
         </a>
     </div>
@@ -61,4 +73,7 @@
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'css/foundation.css' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@next"></script>
+<script src="{% static 'js/requestNumber.js' %}"></script>
 {% endblock %}

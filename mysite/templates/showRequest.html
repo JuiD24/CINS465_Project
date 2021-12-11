@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="b grid-x grid-padding-x">
-    <div class="cell medium-6 large-12 small-12">
+    <div class="cell medium-8 large-12 small-12">
         <div class="grid-x">
                 {% for r in request_from_other_users_list %}
                 {% if r.is_approved == False %}
@@ -21,7 +21,7 @@
                 {% endfor %}
         </div>
     </div>
-    <div class="cell medium-6 large-12 small-12">
+    <div class="cell medium-8 large-12 small-12">
         <div class="grid-x">
             {% for r in request_to_join_other_groups %}
             <div class="card large-3 medium-6 small-12" style="margin: 10px">

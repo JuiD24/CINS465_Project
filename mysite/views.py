@@ -172,6 +172,16 @@ def declineRequest_view(request, req_ID):
     request_obj.delete()
     return redirect("/requestPage/")
 
+def totalRequest_view(request):
+    requestDict = {}
+    totalRequest =0
+    request_from_other_users = models.requestModel.objects.filter(group_Admin=request.user)
+    for req in request_from_other_users:
+        if req.is_approved == False:
+            totalRequest+=1
+    requestDict["totalRequest"] = totalRequest
+    return JsonResponse(requestDict) 
+
 def showActivity_view(request, group_ID):
     if not request.user.is_authenticated:
         return redirect ("/login/")
