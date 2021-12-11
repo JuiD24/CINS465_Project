@@ -200,7 +200,7 @@ def showActivity_view(request, group_ID):
 
     context = {
         "title": "Gym Buddy",
-        "body":"Today's Activities",
+        "body": groupModel_instance.groupName + "'s Activities",
         "group_id": group_ID,
         "activity_list" : activity_list,
         "gymbuddy_list" : gymbuddyList,
@@ -275,7 +275,7 @@ def schedule_view(request):
         print(progress)
     context = {
         "title": "Gym Buddy",
-        "body":"Your Schedule",
+        "body":"Today's Schedule",
         "activityList" : activityList,
         "progress" : int(progress),
     }
