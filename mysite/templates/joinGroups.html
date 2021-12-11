@@ -8,7 +8,10 @@
         <div class="grid-x grid-padding-x">
             <div class="large-4 medium-6 small-12 cell" v-for="o in joinGroupList">
                 <div class="card text-center">
-                    <img v-bind:src="o.image" width="400" height="200" />
+                    <div v-if="o.image"> <img v-bind:src="o.image" height="400" width="400"/> </div>
+                    <div v-else>
+                        <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/120/000000/external-group-miscellaneous-kiranshastry-solid-kiranshastry.png"/>
+                    </div>
                     <div class="card-section">
                         {% verbatim %}
                         <b>{{ o.groupName}} </b> Added by {{o.groupAdmin}} - {{o.date}}

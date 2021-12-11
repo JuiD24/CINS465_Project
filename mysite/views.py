@@ -156,6 +156,13 @@ def acceptRequest_view(request, req_ID):
     request_obj.is_approved = True
     request_obj.group.groupUsers.add(request_obj.requested_User)
     request_obj.save()
+    req_group = request_obj.group
+    activityObjects = models.activityModel.objects.filter(group = req_group)
+    for activity in activityObjects:
+        userActivity_instance = models.userActivityModel()
+        userActivity_instance.user = request_obj.requested_User
+        userActivity_instance.activity = activity
+        userActivity_instance.save()
     return redirect("/requestPage/")
 
 def declineRequest_view(request, req_ID):
