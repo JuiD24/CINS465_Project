@@ -13,10 +13,14 @@
                         <b>{{ o.groupName}}</b>
                         {% endverbatim %}
                     </div>
-                    <img v-bind:src="o.image" height="400" width="400"/>
+                    <div v-if="o.image"> <img v-bind:src="o.image" height="400" width="400"/> </div>
+                    <div v-else>
+                        <img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/120/000000/external-group-miscellaneous-kiranshastry-solid-kiranshastry.png"/>
+                    </div>
                     <div class="card-section text-center">
-                        Added by {% if request.user.username == o.groupAdmin %} You {% else %} {% verbatim %}
-                        {{o.groupAdmin}} {% endverbatim %} {% endif %} - {% verbatim %} {{o.date}}
+                        Added by 
+                        {% verbatim %}
+                        {{o.groupAdmin}} - {{o.date}}
                         {% endverbatim %}
                     </div>
                 </a>
