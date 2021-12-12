@@ -31,7 +31,6 @@ def createGroup(request):
         return redirect ("/login/")
     if request.method == "POST":
         form = forms.GroupForm(request.POST, request.FILES)
-        print(request.FILES)
         if form.is_valid() and request.user.is_authenticated:
             form.saveGroup(request)
             return redirect("/")
@@ -191,7 +190,7 @@ def showActivity_view(request, group_ID):
     for buddy in gymbuddy_list:
         if buddy != request.user:
             gymbuddyList.append(buddy)
-    present = datetime.now()
+    present = datetime.now(timezone.utc)
     activity_objects = models.activityModel.objects.filter(group = groupModel_instance)
     activity_list=[]
     for activity in activity_objects:
@@ -260,19 +259,16 @@ def schedule_view(request):
     userActivity = models.userActivityModel.objects.filter(user = request.user)
     activityList=[]
     present = datetime.now()
-    print(present.date())
-    print(len(userActivity))
+    present = datetime.now(timezone.utc)
     ActivityNotDone=0
     progress=0
     if userActivity:
         for userActivity_instance in userActivity:
-            print(userActivity_instance.activity.activity_added_on)
             if(userActivity_instance.activity.activity_added_on.date() == present.date()):
                 if userActivity_instance.is_completed == False:
                     ActivityNotDone+=1
                     activityList.append(userActivity_instance.activity)
         progress = ((len(userActivity) - ActivityNotDone)/len(userActivity))*100
-        print(progress)
     context = {
         "title": "Gym Buddy",
         "body":"Today's Schedule",
