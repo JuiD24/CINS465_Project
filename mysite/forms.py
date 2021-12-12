@@ -1,6 +1,3 @@
-# from datetime import timezone
-# from django.utils import timezone
-import datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User as auth_user
@@ -53,7 +50,6 @@ class ActivityForm(forms.Form):
         activity_instance.activity_name = self.cleaned_data["activityName"]
         activity_instance.number_of_sets = self.cleaned_data["number_of_sets"]
         activity_instance.addedBy = request.user
-        activity_instance.activity_added_on = datetime.datetime.now()
         activity_instance.save()
         gymbuddy_list = groupModel_instance.groupUsers.all()
         for gbuddy in gymbuddy_list:
