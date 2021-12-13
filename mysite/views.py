@@ -271,9 +271,6 @@ def schedule_view(request):
                     activityList.append(userActivity_instance.activity)
         if len_activity:
             progress = ((len_activity - ActivityNotDone)/len_activity)*100
-    print("progress ",progress)
-    print("len(userActivity) ", len(userActivity))
-    print("ActivityNotDone ", ActivityNotDone)
     context = {
         "title": "Gym Buddy",
         "body":"Today's Schedule",
