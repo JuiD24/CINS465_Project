@@ -247,7 +247,7 @@ def updateActivity_view(request, activity_ID):
         form = forms.ActivityForm()
     context = {
         "title": "Gym Buddy",
-        "body":"Edit Activities",
+        "body":"Edit Activity",
         "form" : form,
         "activity_ID":activity_ID
     }
