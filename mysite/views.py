@@ -261,13 +261,16 @@ def schedule_view(request):
     present = datetime.now(timezone.utc)
     ActivityNotDone=0
     progress=0
+    len_activity = 0
     if userActivity:
         for userActivity_instance in userActivity:
             if(userActivity_instance.activity.activity_added_on.date() == present.date()):
+                len_activity += 1
                 if userActivity_instance.is_completed == False:
                     ActivityNotDone+=1
                     activityList.append(userActivity_instance.activity)
-        progress = ((len(userActivity) - ActivityNotDone)/len(userActivity))*100
+        if len_activity:
+            progress = ((len_activity - ActivityNotDone)/len_activity)*100
     print("progress ",progress)
     print("len(userActivity) ", len(userActivity))
     print("ActivityNotDone ", ActivityNotDone)
