@@ -258,7 +258,6 @@ def schedule_view(request):
         return redirect ("/login/")
     userActivity = models.userActivityModel.objects.filter(user = request.user)
     activityList=[]
-    present = datetime.now()
     present = datetime.now(timezone.utc)
     ActivityNotDone=0
     progress=0
@@ -269,6 +268,9 @@ def schedule_view(request):
                     ActivityNotDone+=1
                     activityList.append(userActivity_instance.activity)
         progress = ((len(userActivity) - ActivityNotDone)/len(userActivity))*100
+    print("progress ",progress)
+    print("len(userActivity) ", len(userActivity))
+    print("ActivityNotDone ", ActivityNotDone)
     context = {
         "title": "Gym Buddy",
         "body":"Today's Schedule",
