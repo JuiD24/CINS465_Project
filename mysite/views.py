@@ -235,8 +235,8 @@ def deleteActivity_view(request, activity_ID):
 def updateActivity_view(request, activity_ID):
     if not request.user.is_authenticated:
         return redirect ("/login/")
+    activity = models.activityModel.objects.get(id = activity_ID)
     if request.method == "POST":
-        activity = models.activityModel.objects.get(id = activity_ID)
         activity.activity_name = request.POST["activityName"]
         activity.number_of_sets = request.POST["number_of_sets"]
         activity.addedBy = request.user
@@ -244,7 +244,7 @@ def updateActivity_view(request, activity_ID):
         groupId = activity.group.id
         return redirect("/showActivity/"+str(groupId)+"/")
     else:
-        form = forms.ActivityForm()
+        form = forms.ActivityForm(initial={'activityName': activity.activity_name, 'number_of_sets' : activity.number_of_sets})
     context = {
         "title": "Gym Buddy",
         "body":"Edit Activity",
